@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MSTR mNAV Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-grid"></div>
+
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">₿</span>
+        <div>
+          <div class="logo-title">mNAV Tracker</div>
+          <div class="logo-sub">MicroStrategy · Digital Asset Treasury</div>
+        </div>
+      </div>
+      <div class="last-updated" id="lastUpdated">—</div>
+    </div>
+  </header>
+
+  <main>
+    <section class="kpi-grid">
+      <div class="kpi-card" id="card-mnav">
+        <div class="kpi-label">mNAV Multiple</div>
+        <div class="kpi-value" id="kpi-mnav">—</div>
+        <div class="kpi-sub">Market Cap / BTC NAV</div>
+      </div>
+      <div class="kpi-card" id="card-mstr">
+        <div class="kpi-label">MSTR Price</div>
+        <div class="kpi-value" id="kpi-mstr">—</div>
+        <div class="kpi-sub" id="kpi-mstr-change">—</div>
+      </div>
+      <div class="kpi-card" id="card-btc">
+        <div class="kpi-label">Bitcoin Price</div>
+        <div class="kpi-value" id="kpi-btc">—</div>
+        <div class="kpi-sub" id="kpi-btc-change">—</div>
+      </div>
+      <div class="kpi-card" id="card-nav">
+        <div class="kpi-label">NAV per Share</div>
+        <div class="kpi-value" id="kpi-nav">—</div>
+        <div class="kpi-sub">BTC Holdings Value / Shares</div>
+      </div>
+    </section>
+
+    <section class="chart-section">
+      <div class="chart-header">
+        <div>
+          <h2>mNAV Over Time</h2>
+          <p class="chart-desc">Daily mNAV multiple — how much premium the market assigns to MSTR's Bitcoin holdings</p>
+        </div>
+        <div class="range-buttons">
+          <button class="range-btn active" data-range="30">1M</button>
+          <button class="range-btn" data-range="90">3M</button>
+          <button class="range-btn" data-range="180">6M</button>
+          <button class="range-btn" data-range="365">1Y</button>
+          <button class="range-btn" data-range="all">All</button>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="mnavChart"></canvas>
+        <div class="chart-loading" id="chartLoading">
+          <div class="spinner"></div>
+          <span>Fetching market data…</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dual Price Chart -->
+    <section class="chart-section">
+      <div class="chart-header">
+        <div>
+          <h2>MSTR vs BTC Price</h2>
+          <p class="chart-desc">Normalized price comparison (base = 100 at start of period)</p>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="priceChart"></canvas>
+      </div>
+    </section>
+
+    <section class="info-section">
+      <div class="info-card">
+        <h3>What is mNAV?</h3>
+        <p>
+          <strong>Modified Net Asset Value (mNAV)</strong> measures the premium (or discount) at which
+          a Digital Asset Treasury company trades relative to the Bitcoin it holds.
+        </p>
+        <div class="formula-box">
+          mNAV = Market Cap ÷ (BTC Holdings x BTC Price)
+        </div>
+        <ul>
+          <li><strong>mNAV &gt; 1</strong> → Market is paying a premium over the BTC value</li>
+          <li><strong>mNAV = 1</strong> → Market values MSTR at exactly its BTC holdings</li>
+          <li><strong>mNAV &lt; 1</strong> → Market is discounting the BTC value (rare for MSTR)</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>MSTR Bitcoin Holdings</h3>
+        <div class="holdings-grid">
+          <div class="holding-item">
+            <span class="holding-label">Total BTC Held</span>
+            <span class="holding-value" id="btcHeld">~762,099 BTC</span>
+          </div>
+          <div class="holding-item">
+            <span class="holding-label">Shares Outstanding</span>
+            <span class="holding-value" id="sharesOut">~377.85M shares</span>
+          </div>
+          <div class="holding-item">
+            <span class="holding-label">BTC per Share</span>
+            <span class="holding-value" id="btcPerShare">~0.00202 BTC</span>
+          </div>
+          <div class="holding-item">
+            <span class="holding-label">Data Source</span>
+            <span class="holding-value">Yahoo Finance</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span>mNAV Tracker · Built for DAT.co Analysis</span>
+      <span>Data: Yahoo Finance (non-official) · Not financial advice</span>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
