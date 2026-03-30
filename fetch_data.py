@@ -14,17 +14,15 @@ BTC_HISTORY = [
     ("2025-06-30", "2025-09-29",  597325, 314_216_000),
     ("2025-09-30", "2025-12-30",  640031, 320_040_000),
     ("2025-12-31", "2026-03-21",  672500, 344_897_000),
-    ("2026-03-22", "2026-03-31",  762099, 377_847_000),
+    ("2026-03-22", "2026-06-30",  762099, 377_847_000),
 ]
 
 def get_holdings(date):
     for start, end, btc, shares in BTC_HISTORY:
         if start <= date.strftime("%Y-%m-%d") <= end:
             return btc, shares
-    return 762099, 377_847_000  # 預設用最新值
+    return 762099, 377_847_000
 
-# BTC_HELD = 762099       # BTC held by MicroStrategy (as of Mar 2025)
-# SHARES_OUT = 377_847_000   # Assumed diluted shares outstanding
 
 print("Downloading MSTR...")
 mstr = yf.download("MSTR", period="13mo", interval="1d", auto_adjust=True, progress=False)
